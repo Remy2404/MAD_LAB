@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Expense Tracker</string>
+    <string name="form_title">Expense Tracker</string>
+    <string name="amount_label">Amount:</string>
+    <string name="amount_hint">Enter amount</string>
+    <string name="category_label">Category:</string>
+    <string name="notes_hint">Enter notes (optional)</string>
+    <string name="add_expense_button">Add Expense</string>
+    <string name="logo_image">Logo Image</string>
+    <string name="add_image">Add Image</string>
+    <string name="hamburger_image">Hamburger Image</string>
+    <string name="remark_hint">Remark</string>
+    <string name="USD">USD</string>">
+    <string name="KHR">KHR</string>">
+
+    <string-array name="categories">
+        <item>Food</item>
+        <item>Entertainment</item>
+        <item>Travel</item>
+        <item>Utilities</item>
+        <item>Shopping</item>
+        <item>Other</item>
+    </string-array>
+</resources>

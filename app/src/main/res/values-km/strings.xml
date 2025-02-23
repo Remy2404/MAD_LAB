@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">កម្មវិធីតាមដានចំណាយ</string>
+    <string name="form_title">កម្មវិធីតាមដានចំណាយ</string>
+    <string name="amount_label">ចំនួនទឹកប្រាក់៖</string>
+    <string name="amount_hint">បញ្ចូលចំនួនទឹកប្រាក់</string>
+    <string name="category_label">ប្រភេទ៖</string>
+    <string name="notes_hint">បញ្ចូលកំណត់ចំណាំ (ជាជម្រើស)</string>
+    <string name="add_expense_button">បញ្ចូលចំណាយ</string>
+    <string name="remark_hint">Remark</string>
+    <string name="logo_image">Logo Image</string>
+    <string name="add_image">Add Image</string>
+    <string name="hamburger_image">Hamburger Image</string>
+    <string name="USD">USD</string>">
+    <string name="KHR">KHR</string>">
+
+    <string-array name="categories">
+        <item>អាហារ</item>
+        <item>ការកំសាន្ត</item>
+        <item>ការធ្វើដំណើរ</item>
+        <item>វិក័យប័ត្រ</item>
+        <item>ការទិញទំនិញ</item>
+        <item>ផ្សេងៗ</item>
+    </string-array>
+</resources>
