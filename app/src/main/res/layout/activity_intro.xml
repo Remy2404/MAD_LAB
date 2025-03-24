@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="393dp"
+        android:layout_height="794dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@android:string/unknownName"
@@ -58,12 +58,12 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="64dp"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/manage_your_expenses"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/manage_your_expenses"
+        android:text="Track your expenses and achieve financial clarity"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -71,13 +71,12 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        tools:text="Track your expenses and achieve financial clarity" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="326dp"
+        android:layout_height="50dp"
         android:layout_marginTop="28dp"
         android:lineSpacingExtra="4dp"
         android:text="@string/manage_your_expenses"
@@ -88,7 +87,6 @@
         app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="@+id/textView1"
         app:layout_constraintTop_toBottomOf="@+id/textView1"
-        tools:layout_editor_absoluteX="28dp"
         tools:text="Manage your expenses effortlessly and gain financial insights" />
 
     <Button

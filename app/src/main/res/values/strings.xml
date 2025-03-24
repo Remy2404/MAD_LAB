@@ -10,8 +10,63 @@
     <string name="add_image">Add Image</string>
     <string name="hamburger_image">Hamburger Image</string>
     <string name="remark_hint">Remark</string>
+    <string name="logo_re">logo_re</string>"
+    <string name = "Track_your_expenses">Track your expenses and achieve financial clarity</string>
+    <string name="manage_your_expenses">Manage your expenses effortlessly and gain financial insights</string>
     <string name="USD">USD</string>">
+    <string name="Get_Started">Get Started</string>">
+    <string name="forgot_password">Forgot password</string>
+    <string name="Keep_me_signed_in">Keep me signed in</string>
     <string name="KHR">KHR</string>">
+    <string name="Sign_in" >Sign in </string>
+    <string name="sign_up_here">Sign Up here</string>
+    <string name="dont_have_account">Don’t have an account?</string>
+    <string name="you_can_connect_with">You can Connect with</string>
+
+    <string name="add_new_expense">Add New Expense</string>
+    <string name="currency_hint">Currency</string>
+    <string name="category_hint">Category</string>
+
+    <string name="created_date_hint">Created Date</string>
+    <string name="add_receipt">Add Receipt</string>
+    <string name="capture_receipt">Capture Receipt</string>
+    <string name="recurring_expense">Recurring Expense</string>
+    <string name="add_expense">ADD EXPENSE</string>
+    <string name="Expense_tracker_app" translatable="false">Expense tracker app</string>
+    <string name="Email_hint" translatable="false">Enter your email</string>
+    <string name="Email_or_Phone_Number" translatable="false">Email or Phone Number</string>
+    <string name="Continues"> Continue</string>
+    <string name = "Create_your_account" translatable="false"> Create your account</string>
+    <string name="Create_account_for_exploring_news" translatable="false" >Create_account_for_exploring_news</string>
+    <string name="barview" translatable="false">barview</string>
+    <!-- Content Descriptions -->
+    <string name="amount_icon_desc">Amount icon</string>
+    <string name="currency_icon_desc">Currency icon</string>
+    <string name="category_icon_desc">Category icon</string>
+    <string name="remark_icon_desc">Remark icon</string>
+    <string name="date_icon_desc">Calendar icon</string>
+    <string name="receipt_preview_desc">Receipt preview image</string>
+    <string name="container" translatable="false">container</string>
+    <string name="btn_edit" translatable="false">btn_edit</string>
+    <string name="btn_delete" translatable="false">btn_delete</string>
+    <string name="btn_save" translatable="false">btn_save</string>
+    <string name="Expense_Details" translatable="false" >Expense Details</string>
+    <string name="enter_your_password" translatable="false">Enter your password</string>
+    <string name="enter_your_email" translatable="false">Enter your email</string>
+    <string name="email_or_phone_number" translatable="false">Email or Phone Number</string>
+    <string name="expense_tracker_app" translatable="false">expense tracker app</string>
+    <string name="let_s_login_for_explore_continues">Let’s login for explore continues</string>
+    <string name="welcome_back" translatable="false">Welcome Back!</string>
+    <string name="Facebook" translatable="false" />
+    <string name="white_bg" />
+    <string name="create_account_for_exploring_news">Create account for exploring news</string>
+    <string name="create_your_account" translatable="false">Create your account</string>
+    <string name="continues" translatable="false">Continue</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">last name\n</string>
+    <string name="button_continue">continue</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
 
     <string-array name="categories">
         <item>Food</item>

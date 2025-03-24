@@ -12,8 +12,40 @@
     <string name="hamburger_image">Hamburger Image</string>
     <string name="USD">USD</string>">
     <string name="KHR">KHR</string>">
+    <string name="logo_re">logo_re</string>"
+    <string name = "Track_your_expenses">តាមដានការចំណាយរបស់អ្នក និងទទួលបានភាពច្បាស់លាស់ផ្នែកហិរញ្ញវត្ថុ</string>
+    <string name="manage_your_expenses">គ្រប់គ្រងការចំណាយរបស់អ្នកដោយមិនពិបាក និងទទួលបានការយល់ដឹងផ្នែកហិរញ្ញវត្ថុ</string>
+    <string name="Get_Started">ចាប់ផ្តើម</string>">
+    <string name="forgot_password">ភ្លេចលេខសំងាត់</string>
+    <string name="Sign_in" >ចូល</string>
+    <string name="Keep_me_signed_in">រក្សាខ្ញុំឱ្យចូល</string>
+    <string name="sign_up_here">ចុះឈ្មោះនៅទីនេះ</string>
+    <string name="dont_have_account">មិនមានគណនី?</string>
+    <string name="you_can_connect_with">អ្នកអាចភ្ជាប់ជាមួយ</string>
 
+    <string name="add_new_expense">Add New Expense</string>
+    <string name="currency_hint">Currency</string>
+    <string name="category_hint">Category</string>
+
+    <string name="created_date_hint">Created Date</string>
+    <string name="add_receipt">Add Receipt</string>
+    <string name="capture_receipt">Capture Receipt</string>
+    <string name="recurring_expense">Recurring Expense</string>
+    <string name="add_expense">ADD EXPENSE</string>
+
+    <!-- ការពិពណ៌នាអំពីមាតិកា -->
+    <string name="amount_icon_desc">រូបតំណាងចំនួនទឹកប្រាក់</string>
+    <string name="currency_icon_desc">រូបតំណាងរូបិយប័ណ្ណ</string>
+    <string name="category_icon_desc">រូបតំណាងប្រភេទ</string>
+    <string name="remark_icon_desc">រូបតំណាងកំណត់ចំណាំ</string>
+    <string name="date_icon_desc">រូបតំណាងប្រតិទិន</string>
+    <string name="receipt_preview_desc">រូបភាពមើលជាមុននៃវិក្កយបត្រ</string>
+    <string name="let_s_login_for_explore_continues">Let’s login for explore continues</string>
+    <string name="white_bg" />
+    <string name="create_account_for_exploring_news">Create account for exploring news</string>
+    <string name="continues">Continue</string>
     <string-array name="categories">
+
         <item>អាហារ</item>
         <item>ការកំសាន្ត</item>
         <item>ការធ្វើដំណើរ</item>
@@ -21,4 +53,10 @@
         <item>ការទិញទំនិញ</item>
         <item>ផ្សេងៗ</item>
     </string-array>
+    <string name="Continues">បន្ត</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">last name\n</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="button_continue">continue</string>
 </resources>
