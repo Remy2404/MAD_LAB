@@ -48,7 +48,6 @@ public class LoginSuccessActivity extends AppCompatActivity {
             }
         }, 3000); // 3 seconds
     }
-
     private void navigateToMainActivity() {
         Intent intent = new Intent(LoginSuccessActivity.this, MainActivity.class);
         startActivity(intent);

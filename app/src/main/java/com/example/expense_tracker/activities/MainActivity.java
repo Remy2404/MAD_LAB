@@ -1,177 +1,155 @@
 package com.example.expense_tracker.activities;
 
-            import static android.content.ContentValues.TAG;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-            import androidx.activity.result.ActivityResult;
-            import androidx.activity.result.ActivityResultCallback;
-            import androidx.activity.result.ActivityResultLauncher;
-            import androidx.activity.result.contract.ActivityResultContracts;
-            import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-            import android.content.Intent;
-            import android.os.Bundle;
-            import android.util.Log;
-            import android.widget.Button;
-            import android.widget.TextView;
-            import android.widget.Toast;
-            import android.widget.ProgressBar;
+import com.example.expense_tracker.R;
+import com.example.expense_tracker.fragments.AddExpense_Fragment;
+import com.example.expense_tracker.fragments.ExpenseDetailFragment;
+import com.example.expense_tracker.fragments.Expense_ListFragment;
+import com.example.expense_tracker.fragments.HomeFragment;
+import com.example.expense_tracker.routes.RetrofitClient;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
-            import com.example.expense_tracker.R;
-            import com.example.expense_tracker.models.Expense;
-            import com.google.android.material.button.MaterialButton;
+public class MainActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private static final String TAG = "MainActivity";
 
-            import java.text.NumberFormat;
-            import java.util.Locale;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        try {
+            // Set up toolbar
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            if (toolbar != null) {
+                setSupportActionBar(toolbar);
+            }
+            
+            mAuth = FirebaseAuth.getInstance();
 
-            public class MainActivity extends AppCompatActivity {
+            // Check if user is logged in
+            if (mAuth.getCurrentUser() == null) {
+                // User is not logged in, redirect to login
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return;
+            }
 
-                private TextView tvTitle;
-                private TextView tvLastExpense;
-                private TextView tvTotalAmount;
-                private TextView tvBudgetLeft;
-                private ProgressBar progressBudget;
-                private MaterialButton btnAddExpense;
-                private MaterialButton btnViewExpense;
-                private Button btnQuickFood;
-                private Button btnQuickTransport;
-                private Button btnQuickBills;
+            // Set the user ID as the database name for Retrofit
+            RetrofitClient.setDbName(mAuth.getCurrentUser().getUid());
 
-                private Expense latestExpense;
-                private double monthlyBudget = 1000.00;
-                private double totalExpenses = 0.00;
+            // Setup bottom navigation
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
+            if (bottomNavigationView == null) {
+                Log.e(TAG, "bottomNav view not found in layout");
+                Toast.makeText(this, "Layout error: Navigation not found", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                // Activity Result Launcher for Add Expense Activity
-                private final ActivityResultLauncher<Intent> addExpenseLauncher = registerForActivityResult(
-                        new ActivityResultContracts.StartActivityForResult(),
-                        result -> {
-                            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                                // Get expense data from result
-                                latestExpense = (Expense) result.getData().getSerializableExtra("EXPENSE_DATA");
-                                if (latestExpense != null) {
-                                    // Update total expenses
-                                    totalExpenses += latestExpense.getAmount();
-                                    // Update UI
-                                    updateDashboardData();
-                                    Toast.makeText(this, "Expense added successfully", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                );
-
-                @Override
-                protected void onCreate(Bundle savedInstanceState) {
-                    super.onCreate(savedInstanceState);
-                    setContentView(R.layout.activity_main);
-
-                    // Initialize UI components
-                    initializeUI();
-                    setupClickListeners();
-                    updateDashboardData();
-                }
-
-                private void initializeUI() {
-                    tvTitle = findViewById(R.id.tvTitle);
-                    tvLastExpense = findViewById(R.id.tvLastExpense);
-                    tvTotalAmount = findViewById(R.id.tvTotalAmount);
-                    tvBudgetLeft = findViewById(R.id.tvBudgetLeft);
-                    progressBudget = findViewById(R.id.progressBudget);
-                    btnAddExpense = findViewById(R.id.btnAddExpense);
-                    btnViewExpense = findViewById(R.id.btnViewExpense);
-                    btnQuickFood = findViewById(R.id.btnQuickFood);
-                    btnQuickTransport = findViewById(R.id.btnQuickTransport);
-                    btnQuickBills = findViewById(R.id.btnQuickBills);
-
-                    tvTitle.setText("Manage Your Expense, Phon Ramy");
-                }
-
-                private void setupClickListeners() {
-                    btnAddExpense.setOnClickListener(view -> {
-                        try {
-                            Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
-                            addExpenseLauncher.launch(intent);
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error launching AddExpenseActivity: " + e.getMessage());
-                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    btnViewExpense.setOnClickListener(view -> {
-                        try {
-                            if (latestExpense != null) {
-                                Intent intent = new Intent(MainActivity.this, ExpenseDetailActivity.class);
-                                intent.putExtra("EXPENSE_DATA", latestExpense);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(this, "No expense to view. Add an expense first.", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error launching ExpenseDetailActivity: " + e.getMessage());
-                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    btnQuickFood.setOnClickListener(view -> {
-                        try {
-                            Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
-                            intent.putExtra("QUICK_CATEGORY", "Food");
-                            addExpenseLauncher.launch(intent);
-                        } catch (Exception e) {
-                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    btnQuickTransport.setOnClickListener(view -> {
-                        try {
-                            Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
-                            intent.putExtra("QUICK_CATEGORY", "Transport");
-                            addExpenseLauncher.launch(intent);
-                        } catch (Exception e) {
-                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    btnQuickBills.setOnClickListener(view -> {
-                        try {
-                            Intent intent = new Intent(MainActivity.this, AddExpenseActivity.class);
-                            intent.putExtra("QUICK_CATEGORY", "Bills");
-                            addExpenseLauncher.launch(intent);
-                        } catch (Exception e) {
-                            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                private void updateDashboardData() {
-                    // Update last expense text
-                    if (latestExpense != null) {
-                        String expenseText = String.format(Locale.getDefault(),
-                                "Last expense: %.2f %s for %s",
-                                latestExpense.getAmount(),
-                                latestExpense.getCurrency(),
-                                latestExpense.getCategory());
-                        tvLastExpense.setText(expenseText);
-                    } else {
-                        tvLastExpense.setText("No recent expenses");
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                try {
+                    int itemId = item.getItemId();
+                    
+                    if (itemId == R.id.nav_home) {
+                        loadFragment(new HomeFragment(), "HomeFragment");
+                        return true;
+                    } else if (itemId == R.id.nav_add_expense) {
+                        loadFragment(new AddExpense_Fragment(), "AddExpense_Fragment");
+                        return true;
+                    } else if (itemId == R.id.nav_expense_list) {
+                        loadFragment(new Expense_ListFragment(), "Expense_ListFragment");
+                        return true;
                     }
-
-                    // Format currency values
-                    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
-
-                    // Update total amount
-                    tvTotalAmount.setText(currencyFormatter.format(totalExpenses));
-
-                    // Calculate budget left
-                    double budgetLeft = monthlyBudget - totalExpenses;
-                    tvBudgetLeft.setText(currencyFormatter.format(budgetLeft));
-
-                    // Update progress bar
-                    int progressPercentage = (int)((totalExpenses / monthlyBudget) * 100);
-                    progressBudget.setProgress(Math.min(progressPercentage, 100));
+                } catch (Exception e) {
+                    Log.e(TAG, "Error loading fragment: " + e.getMessage());
+                    Toast.makeText(this, "Error loading screen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                
+                return false;
+            });
 
-                @Override
-                protected void onResume() {
-                    super.onResume();
-                    updateDashboardData();
+            // Set default fragment
+            if (savedInstanceState == null) {
+                try {
+                    loadFragment(new HomeFragment(), "HomeFragment");
+                } catch (Exception e) {
+                    Log.e(TAG, "Error loading initial fragment: " + e.getMessage());
+                    Toast.makeText(this, "Error loading initial screen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+        } catch (Exception e) {
+            Log.e(TAG, "Error in onCreate: " + e.getMessage());
+            Toast.makeText(this, "Startup error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_sign_out) {
+            mAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Navigation methods for fragments
+    public void navigateToHome() {
+        loadFragment(new HomeFragment(), "HomeFragment");
+    }
+
+    public void navigateToExpenseList() {
+        loadFragment(new Expense_ListFragment(), "Expense_ListFragment");
+    }
+
+    public void navigateToExpenseDetail(long expenseId) {
+        try {
+            ExpenseDetailFragment fragment = new ExpenseDetailFragment();
+            Bundle args = new Bundle();
+            args.putLong("expense_id", expenseId);
+            fragment.setArguments(args);
+            loadFragment(fragment, "ExpenseDetailFragment");
+        } catch (Exception e) {
+            Log.e(TAG, "Error navigating to expense detail: " + e.getMessage());
+            Toast.makeText(this, "Error loading expense details", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void loadFragment(Fragment fragment, String tag) {
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+        
+        try {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment, tag);
+            if (!tag.equals("HomeFragment")) {
+                transaction.addToBackStack(null);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            Log.e(TAG, "Error in loadFragment: " + e.getMessage());
+            Toast.makeText(this, "Navigation error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+}

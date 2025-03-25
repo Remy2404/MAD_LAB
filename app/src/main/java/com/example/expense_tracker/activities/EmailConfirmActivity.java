@@ -1,28 +1,33 @@
 package com.example.expense_tracker.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.expense_tracker.R;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class EmailConfirmActivity extends AppCompatActivity {
 
     private EditText etEmail;
     private Button btnContinue;
-    private static final String DATA_FILE = "data.txt";
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_email);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
         etEmail = findViewById(R.id.editTextTextEmailAddress2);
@@ -32,17 +37,8 @@ public class EmailConfirmActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = etEmail.getText().toString().trim();
-
                 if (validateEmail(email)) {
-                    if (isEmailAlreadyRegistered(email)) {
-                        Toast.makeText(EmailConfirmActivity.this,
-                                "This email is already registered", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Navigate to sign up screen with email
-                        Intent intent = new Intent(EmailConfirmActivity.this, SignUpActivity.class);
-                        intent.putExtra("email", email);
-                        startActivity(intent);
-                    }
+                    checkEmailExists(email);
                 }
             }
         });
@@ -62,27 +58,28 @@ public class EmailConfirmActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean isEmailAlreadyRegistered(String email) {
-        try {
-            FileInputStream fis = openFileInput(DATA_FILE);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] userData = line.split(",");
-                // Format: email,password,firstName,lastName
-                if (userData.length >= 1 && userData[0].equals(email)) {
-                    br.close();
-                    return true;
-                }
-            }
-
-            br.close();
-        } catch (Exception e) {
-            // File might not exist yet, which is fine
-        }
-
-        return false;
+    private void checkEmailExists(String email) {
+        mAuth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                        if (task.isSuccessful()) {
+                            boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                            
+                            if (isNewUser) {
+                                // Email is not registered, proceed to sign up
+                                Intent intent = new Intent(EmailConfirmActivity.this, SignUpActivity.class);
+                                intent.putExtra("email", email);
+                                startActivity(intent);
+                            } else {
+                                // Email already exists
+                                etEmail.setError("Email already registered. Please login");
+                            }
+                        } else {
+                            Toast.makeText(EmailConfirmActivity.this, "Error checking email: " + 
+                                           task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

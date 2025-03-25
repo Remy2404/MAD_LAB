@@ -37,7 +37,7 @@
     <string name="Email_or_Phone_Number" translatable="false">Email or Phone Number</string>
     <string name="Continues"> Continue</string>
     <string name = "Create_your_account" translatable="false"> Create your account</string>
-    <string name="Create_account_for_exploring_news" translatable="false" >Create_account_for_exploring_news</string>
+    <string name="Create_account_for_exploring_news" translatable="false" >Create account for exploring news</string>
     <string name="barview" translatable="false">barview</string>
     <!-- Content Descriptions -->
     <string name="amount_icon_desc">Amount icon</string>
@@ -67,6 +67,16 @@
     <string name="button_continue">continue</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="amount">amount</string>
+    <string name="category">category</string>
+    <string name="remark">remark</string>
+    <string name="sign_out" translatable="false">Sign Out</string>
+    <string name="cancel">cancel</string>
+    <string name="createdate">CreateDate</string>
+    <string name="expense_details">Expense Details</string>
+    <string name="back">back</string>
+    <string name="expense_list">Expense List</string>
+    <string name="home">Home</string>
 
     <string-array name="categories">
         <item>Food</item>

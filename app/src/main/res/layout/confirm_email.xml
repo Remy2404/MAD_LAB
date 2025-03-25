@@ -8,20 +8,18 @@
 
     <ImageView
         android:id="@+id/imageView10"
-        android:contentDescription="@string/container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="377dp"
+        android:layout_height="832dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.95"
-        app:layout_constraintHeight_percent="0.95"
+        app:layout_constraintVertical_bias="0.646"
         app:srcCompat="@drawable/bg_white_c" />
 
     <ImageView
         android:id="@+id/imageView14"
-        android:contentDescription="@string/barview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -65,7 +63,6 @@
         android:layout_height="114dp"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/logo_image"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
@@ -89,7 +86,6 @@
         android:layout_width="268dp"
         android:layout_height="205dp"
         android:layout_marginTop="20dp"
-        android:contentDescription="@string/Expense_tracker_app"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +98,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
-        android:text="@string/Email_or_Phone_Number"
-       android:textStyle="bold"
+        android:text="@string/enter_your_email"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,37 +108,35 @@
     <EditText
         android:id="@+id/editTextTextEmailAddress2"
         style="@style/InputStyle"
-        android:layout_width="0dp"
+        android:layout_width="335dp"
         android:layout_height="56dp"
         android:layout_marginTop="36dp"
-        android:autofillHints="emailAddress"
         android:backgroundTint="#F2EEEE"
         android:drawableStart="@drawable/image_shape"
         android:drawablePadding="10sp"
         android:ems="10"
         android:fontFamily="@font/poppins_semibold"
-        android:hint="@string/Email_hint"
+        android:hint="Enter your email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
-        app:layout_constraintWidth_percent="0.85" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="327dp"
-        android:layout_height="60dp"
+        android:layout_height="58dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="#D70404"
         android:fontFamily="@font/poppins_semibold"
-        android:radius="180dp"
-        android:text="@string/Continues"
+        android:text="@string/continues"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2"
-        app:layout_constraintWidth_percent="0.85"
-        tools:ignore="MissingPrefix" />
+        app:layout_constraintVertical_bias="0.051" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

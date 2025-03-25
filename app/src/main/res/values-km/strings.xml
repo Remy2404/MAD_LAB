@@ -59,4 +59,10 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="button_continue">continue</string>
+    <string name="amount">amount</string>
+    <string name="category">category</string>
+    <string name="remark">remark</string>
+    <string name="cancel">cancel</string>
+    <string name="createdate">CreateDate</string>
+    <string name="back">back</string>
 </resources>

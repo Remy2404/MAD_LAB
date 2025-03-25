@@ -1,56 +1,110 @@
+# Expense Tracker Application
 
-# Expense Tracker
+## Lab 5: Network Communication – Firebase and Retrofit
 
-Expense Tracker is an Android application developed using Java, Kotlin, and Gradle. The app allows users to track their expenses with a modern UI that supports both light and dark modes.
+### Objective
 
-## Features
+Enhance the Expense Tracker app by integrating **Firebase Authentication** for signup/login and **Retrofit** for API communication.
 
-- **Light/Dark Mode:** The app adapts its UI based on the chosen theme.
-- **User-Friendly Interface:** Uses ConstraintLayout and Material Design components.
-- **Expense Logging:** Quickly add and view expense records.
-- **Intuitive Navigation:** Easy to navigate with clearly defined sections and controls.
+---
 
-## Screenshots
+## Features & Implementation
 
-### Light Mode
-![Light Mode](Img/light_mode.png)
+### 1. Firebase Authentication
 
-### Dark Mode
-![Dark Mode](Img/dark_mode.png)
+#### Signup Screen:
 
-## Prerequisites
+- Users can register using **email** and **password**.
+- Registration is powered by **Firebase Authentication**.
+- Displays error messages for invalid inputs.
 
-- Android Studio (Ladybug Feature Drop | 2024.2.2 or later)
-- Java JDK 8 or above
-- Kotlin 1.5 or above
-- Gradle
+#### Login Screen:
 
-## Installation
+- Users log in with **email** and **password**.
+- Authentication is handled via **Firebase**.
+- On successful login, users navigate to the main app screen.
 
-1. **Clone the Repository:**
+#### Sign-Out Button:
 
-   ```sh
-   git https://github.com/Remy2404/MAD_LAB.git
-   cd Expense_Tracker
-   ```
+- Adds a sign-out option in the settings fragment or menu.
+- Calls:
 
-2. **Open the Project in Android Studio:**
+  ```java
+  FirebaseAuth.getInstance().getCurrentUser().signOut()
+  ```
 
-    - Open Android Studio.
-    - Click on _File_ > _Open_ and select the project root directory.
+- Redirects to the login screen after signing out.
 
-3. **Sync Gradle:**
+---
 
-    - Android Studio will prompt you to sync the Gradle files. Click on _Sync Now_.
-    - Alternatively, you can use the command-line:
+### 2. Retrofit for Expense Tracking API
 
-      ```sh
-      ./gradlew build
-      ```
+#### Expense List Fragment:
 
-## Usage
+- Fetches expense data using **Retrofit**.
+- Displays the data in a **RecyclerView**.
+- Each user accesses their own data using the `X-DB-NAME` header.
 
-- **Run the Application:**
-    - Use the _Run_ button in Android Studio or execute `./gradlew installDebug` from the command line.
-- **Version Control:**
-    - The project is integrated with Git. Use the _VCS_ menu in Android Studio to commit, push, and pull changes.
+#### Add Expense Fragment:
+
+- Implements expense addition functionality with the following fields:
+  - **Amount**
+  - **Currency**
+  - **Category**
+  - **Remark**
+- Automatically adds:
+
+  - **Id**: `UUID.randomUUID().toString()`
+  - **CreatedBy**: `FirebaseAuth.getInstance().getCurrentUser().getUid()`
+  - **CreatedDate**: Current date in **ISO 8601 format** (e.g., `2025-03-22T15:08:08Z`).
+
+- Uses a Date Adapter for proper serialization:
+
+  ```java
+  @JsonAdapter(ISO8601DateAdapter.class)
+  ```
+
+  Adapter source: [ISO8601DateAdapter Gist](https://gist.github.com/hangsopheak/eb7c370812be1f3f1d7a783d9fbde6f)
+
+- Sends **POST requests** via Retrofit to add expenses.
+
+#### Expense Detail Screen:
+
+- Fetches and displays detailed information about a selected expense.
+
+---
+
+### 3. API Instructions
+
+- Use the provided API server.
+- **Expense API CURL Example**: [API Gist](https://gist.github.com/hangsopheak/2ac42cba1862fef2643a9e0bc10db231)
+- Generate a GUID: [GUID Generator](https://guidgenerator.com)
+- Use the generated GUID as the `X-DB-NAME` header to create a personal database.
+
+---
+
+### 4. Bonus Challenges (Optional)
+
+#### **Infinite Scroll Pagination**:
+
+- Implements infinite scrolling in the expense list using **Retrofit** and **RecyclerView**.
+- Dynamically loads more expenses as users scroll down.
+
+#### **Swipe-to-Delete**:
+
+- Enables swipe gestures to delete expenses from the list.
+
+---
+
+### Debugging Tips
+
+Common issues you might encounter include:
+
+- **Network API Calls**: Retrofit request errors, headers, or incorrect endpoints.
+- **Date Serialization/Deserialization**: Formatting and parsing issues.
+
+To troubleshoot:
+
+- Use the **Android Debugger** and set breakpoints.
+- Check **Logcat** for error messages.
+- Monitor API requests and responses using **Network Inspector**.

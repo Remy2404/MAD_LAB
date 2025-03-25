@@ -1,28 +1,47 @@
 package com.example.expense_tracker.models;
 
-import java.io.Serializable;
+import com.example.expense_tracker.utils.ISO8601DateAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
 
-public class Expense implements Serializable {
+import java.util.Date;
+
+public class Expense {
+    @SerializedName("id")
+    private String id;
+    
+    @SerializedName("amount")
     private double amount;
+    
+    @SerializedName("currency")
     private String currency;
+    
+    @SerializedName("category")
     private String category;
+    
+    @SerializedName("categoryObject")
+    private Category categoryObject;
+    
+    @SerializedName("remark")
     private String remark;
-    private String createdDate;
-    private String receiptPath;
-    private boolean isRecurring;
+    
+    @SerializedName("createdBy")
+    private String createdBy;
+    
+    @SerializedName("user")
+    private User user;
+    
+    @SerializedName("createdDate")
+    @JsonAdapter(ISO8601DateAdapter.class)
+    private Date createdDate;
 
-    public Expense(double amount, String currency, String category, String remark, String createdDate, String receiptPath, boolean isRecurring) {
-        this.amount = amount;
-        this.currency = currency;
-        this.category = category;
-        this.remark = remark;
-        this.createdDate = createdDate;
-        this.receiptPath = receiptPath;
-        this.isRecurring = isRecurring;
+    // Getters and Setters
+    public String getId() {
+        return id;
     }
 
-    public Expense() {
-
+    public void setId(String id) {
+        this.id = id;
     }
 
     public double getAmount() {
@@ -48,6 +67,14 @@ public class Expense implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
+    
+    public Category getCategoryObject() {
+        return categoryObject;
+    }
+    
+    public void setCategoryObject(Category categoryObject) {
+        this.categoryObject = categoryObject;
+    }
 
     public String getRemark() {
         return remark;
@@ -57,26 +84,31 @@ public class Expense implements Serializable {
         this.remark = remark;
     }
 
-    public String getCreatedDate() {
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public void setReceiptPath(String receiptPath) {
-        this.receiptPath = receiptPath;
-    }
-
-    public String getReceiptPath() {
-        return receiptPath;
-    }
-    public void setRecurring(boolean isRecurring) {
-        this.isRecurring = isRecurring;
-    }
-
-    public boolean isRecurring() {
-        return isRecurring;
+    public String getTitle() {
+        return this.category + " - " + this.amount + " " + this.currency;
     }
 }

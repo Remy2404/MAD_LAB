@@ -1,5 +1,6 @@
 package com.example.expense_tracker.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,10 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.expense_tracker.R;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,12 +27,22 @@ public class LoginActivity extends AppCompatActivity {
     private static final String PREF_NAME = "expense_tracker_prefs";
     private static final String IS_LOGGED_IN = "is_logged_in";
     private static final String CURRENT_USER = "current_user";
-    private static final String DATA_FILE = "data.txt";
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        
+        // Check if user is already logged in
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+            return;
+        }
 
         // Initialize preferences
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -42,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp = findViewById(R.id.tvSignUpNow);
         btnLogin = findViewById(R.id.button2);
 
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,18 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString().trim();
 
                 if (validateInput(email, password)) {
-                    if (authenticateUser(email, password)) {
-                        // Save login state
-                        saveLoginState(email);
-
-                        // Navigate to success screen
-                        Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
-                        intent.putExtra("user_email", email);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-                    }
+                    loginUser(email, password);
                 }
             }
         });
@@ -99,30 +98,27 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean authenticateUser(String email, String password) {
-        try {
-            FileInputStream fis = openFileInput(DATA_FILE);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] userData = line.split(",");
-                // Format: email,password,firstName,lastName
-                if (userData.length >= 2) {
-                    if (userData[0].equals(email) && userData[1].equals(password)) {
-                        br.close();
-                        return true;
+    private void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Save login state
+                            saveLoginState(email);
+                            
+                            // Navigate to success screen
+                            Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
+                            intent.putExtra("user_email", email);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed: " + 
+                                          task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            }
-
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
+                });
     }
 
     private void saveLoginState(String email) {
