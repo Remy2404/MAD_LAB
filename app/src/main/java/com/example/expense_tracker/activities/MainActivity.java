@@ -123,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new Expense_ListFragment(), "Expense_ListFragment");
     }
 
-    public void navigateToExpenseDetail(long expenseId) {
+    public void navigateToExpenseDetail(String expenseId) { // Accept String ID
         try {
             ExpenseDetailFragment fragment = new ExpenseDetailFragment();
             Bundle args = new Bundle();
-            args.putLong("expense_id", expenseId);
+            args.putString("expense_id", expenseId); // Put String ID in Bundle
             fragment.setArguments(args);
             loadFragment(fragment, "ExpenseDetailFragment");
         } catch (Exception e) {

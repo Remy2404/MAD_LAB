@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class ExpenseDetailFragment extends Fragment {
 
-    private long expenseId;
+    private String expenseId; // Change type to String
     private FirebaseAuth mAuth;
     private TextView expenseTitle, amountText, remarkText, createdDateText, createdByText;
     private Chip categoryChip;
@@ -56,7 +56,7 @@ public class ExpenseDetailFragment extends Fragment {
         
         // Get expense ID from arguments
         if (getArguments() != null) {
-            expenseId = getArguments().getLong("expense_id");
+            expenseId = getArguments().getString("expense_id"); // Get String ID
         }
         
         // Initialize views
@@ -77,7 +77,12 @@ public class ExpenseDetailFragment extends Fragment {
         deleteButton.setOnClickListener(v -> deleteExpense());
         
         // Load expense details
-        loadExpenseDetails();
+        if (expenseId != null && !expenseId.isEmpty()) { // Check if ID is valid
+            loadExpenseDetails();
+        } else {
+            Toast.makeText(getContext(), "Invalid Expense ID", Toast.LENGTH_SHORT).show();
+            // Optionally navigate back or show an error state
+        }
     }
     
     private void loadExpenseDetails() {
@@ -87,7 +92,8 @@ public class ExpenseDetailFragment extends Fragment {
         String dbGuid = GuidUtils.getUserDbGuid(requireContext());
         
         ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
-        Call<Expense> call = expenseAPI.getExpense(dbGuid, String.valueOf(expenseId));
+        // Pass the String expenseId directly to the API call
+        Call<Expense> call = expenseAPI.getExpense(dbGuid, expenseId);
         
         call.enqueue(new Callback<Expense>() {
             @Override
@@ -150,7 +156,8 @@ public class ExpenseDetailFragment extends Fragment {
         String dbGuid = GuidUtils.getUserDbGuid(requireContext());
         
         ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
-        Call<Void> call = expenseAPI.deleteExpense(dbGuid, String.valueOf(expenseId));
+        // Pass the String expenseId directly to the API call
+        Call<Void> call = expenseAPI.deleteExpense(dbGuid, expenseId);
         
         call.enqueue(new Callback<Void>() {
             @Override

@@ -76,26 +76,16 @@ public class Expense_Adapter extends RecyclerView.Adapter<Expense_Adapter.Expens
     public int getItemCount() {
         return expenses != null ? expenses.size() : 0;
     }
-
     private void openExpenseDetail(Expense expense) {
         if (context instanceof MainActivity) {
             try {
-                long expenseId;
-                Object idObj = expense.getId();
-                if (idObj instanceof Long) {
-                    expenseId = (Long) idObj;
-                } else if (idObj instanceof Integer) {
-                    expenseId = ((Integer) idObj).longValue();
+                String expenseId = expense.getId(); // Get the ID as String
+                if (expenseId == null || expenseId.isEmpty()) {
+                    throw new IllegalArgumentException("Expense ID is null or empty");
                 }
-                else if (idObj instanceof String) {
-                    String idStr = (String) idObj;
-                    expenseId = Long.parseLong(idStr);
-                } else {
-                    throw new IllegalArgumentException("Invalid expense ID type: " + (idObj != null ? idObj.getClass().getName() : "null"));
-                }
-                ((MainActivity) context).navigateToExpenseDetail(expenseId);
-            } catch (NumberFormatException e) {
-                Log.e(TAG, "Invalid expense ID format: " + e.getMessage());
+                ((MainActivity) context).navigateToExpenseDetail(expenseId); // Pass the String ID
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Invalid expense ID: " + e.getMessage());
                 Toast.makeText(context, "Invalid expense ID", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Log.e(TAG, "Error opening expense details: " + e.getMessage());
@@ -103,6 +93,7 @@ public class Expense_Adapter extends RecyclerView.Adapter<Expense_Adapter.Expens
             }
         }
     }
+
 
     static class ExpenseViewHolder extends RecyclerView.ViewHolder {
         TextView tvCategory, tvAmount, tvCreateDate, tvCurrency, tvRemark;
