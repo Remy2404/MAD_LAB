@@ -77,6 +77,7 @@
     <string name="back">back</string>
     <string name="expense_list">Expense List</string>
     <string name="home">Home</string>
+    <string name="profile">profile</string>
 
     <string-array name="categories">
         <item>Food</item>

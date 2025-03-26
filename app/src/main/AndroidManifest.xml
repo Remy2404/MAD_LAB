@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.ExpenseTracker"
         android:supportsRtl="true"
-        tools:targetApi="31">
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Intro/Splash Activity -->
         <activity

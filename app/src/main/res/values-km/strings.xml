@@ -65,4 +65,5 @@
     <string name="cancel">cancel</string>
     <string name="createdate">CreateDate</string>
     <string name="back">back</string>
+    <string name="profile">profile</string>
 </resources>

@@ -14,14 +14,14 @@ import retrofit2.http.Path;
 
 public interface ExpenseApi {
     @GET("expenses")
-    Call<List<Expense>> getExpenses(@Header("Authorization") String authToken);
+    Call<List<Expense>> getExpenses(@Header("X-DB-NAME") String dbName);
     
     @GET("expenses/{id}")
-    Call<Expense> getExpense(@Header("Authorization") String authToken, @Path("id") long id);
+    Call<Expense> getExpense(@Header("X-DB-NAME") String dbName, @Path("id") String id);
     
     @POST("expenses")
-    Call<Expense> createExpense(@Header("Authorization") String authToken, @Body Expense expense);
+    Call<Expense> createExpense(@Header("X-DB-NAME") String dbName, @Body Expense expense);
     
     @DELETE("expenses/{id}")
-    Call<Void> deleteExpense(@Header("Authorization") String authToken, @Path("id") long id);
+    Call<Void> deleteExpense(@Header("X-DB-NAME") String dbName, @Path("id") String id);
 }

@@ -1,6 +1,9 @@
 package com.example.expense_tracker.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +21,10 @@ import com.example.expense_tracker.R;
 import com.example.expense_tracker.models.Expense;
 import com.example.expense_tracker.routes.ExpenseApi;
 import com.example.expense_tracker.routes.RetrofitClient;
+import com.example.expense_tracker.utils.GuidUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +34,7 @@ import retrofit2.Response;
 
 public class AddExpense_Fragment extends Fragment {
 
-    private EditText etAmount, etRemark;
+    private EditText etAmount, etRemark, etTitle;
     private Spinner spinnerCurrency, spinnerCategory;
     private Button btnSave, btnCancel;
     private FirebaseAuth mAuth;
@@ -54,6 +59,7 @@ public class AddExpense_Fragment extends Fragment {
         // Initialize views
         etAmount = view.findViewById(R.id.etAmount);
         etRemark = view.findViewById(R.id.etRemark);
+        etTitle = view.findViewById(R.id.etTitle);
         spinnerCurrency = view.findViewById(R.id.spinnerCurrency);
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
         btnSave = view.findViewById(R.id.btnSave);
@@ -85,7 +91,14 @@ public class AddExpense_Fragment extends Fragment {
     private void saveExpense() {
         try {
             // Validate input
+            String title = etTitle.getText().toString().trim();
             String amountStr = etAmount.getText().toString().trim();
+            
+            if (title.isEmpty()) {
+                etTitle.setError("Title is required");
+                return;
+            }
+            
             if (amountStr.isEmpty()) {
                 etAmount.setError("Amount is required");
                 return;
@@ -99,6 +112,7 @@ public class AddExpense_Fragment extends Fragment {
             // Create expense object
             Expense expense = new Expense();
             expense.setId(UUID.randomUUID().toString());
+            expense.setTitle(title);
             expense.setAmount(amount);
             expense.setCurrency(currency);
             expense.setCategory(category);
@@ -106,12 +120,15 @@ public class AddExpense_Fragment extends Fragment {
             expense.setCreatedDate(new Date());
             
             if (mAuth.getCurrentUser() != null) {
-                String authToken = mAuth.getCurrentUser().getUid();
-                expense.setCreatedBy(authToken);
+                String userId = mAuth.getCurrentUser().getUid();
+                expense.setCreatedBy(userId);
+                
+                // Get the GUID using our utility class
+                String dbGuid = GuidUtils.getUserDbGuid(requireContext());
                 
                 // Send POST request to API
                 ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
-                Call<Expense> call = expenseAPI.createExpense(authToken, expense);
+                Call<Expense> call = expenseAPI.createExpense(dbGuid, expense);
                 
                 call.enqueue(new Callback<Expense>() {
                     @Override
@@ -120,7 +137,14 @@ public class AddExpense_Fragment extends Fragment {
                             Toast.makeText(getContext(), "Expense saved successfully", Toast.LENGTH_SHORT).show();
                             getParentFragmentManager().popBackStack();
                         } else {
-                            Toast.makeText(getContext(), "Failed to save expense", Toast.LENGTH_SHORT).show();
+                            try {
+                                String errorBody = response.errorBody().string();
+                                Log.e("API Error", "Error code: " + response.code() + ", body: " + errorBody);
+                                Toast.makeText(getContext(), "Failed to save expense: " + response.code(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                Log.e("API Error", "Error parsing error response", e);
+                                Toast.makeText(getContext(), "Failed to save expense", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 

@@ -47,5 +47,10 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/input_text</item>
     </style>
+      <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Disable the window-provided action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 </resources>

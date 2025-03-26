@@ -1,6 +1,7 @@
 package com.example.expense_tracker.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,8 +19,11 @@ import com.example.expense_tracker.fragments.ExpenseDetailFragment;
 import com.example.expense_tracker.fragments.Expense_ListFragment;
 import com.example.expense_tracker.fragments.HomeFragment;
 import com.example.expense_tracker.routes.RetrofitClient;
+import com.example.expense_tracker.utils.GuidUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -32,11 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         try {
-            // Set up toolbar
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            if (toolbar != null) {
-                setSupportActionBar(toolbar);
-            }
+            // Remove toolbar setup - it's causing the conflict
             
             mAuth = FirebaseAuth.getInstance();
 
@@ -48,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // Set the user ID as the database name for Retrofit
-            RetrofitClient.setDbName(mAuth.getCurrentUser().getUid());
+            // Set the user GUID as the database name for Retrofit using our utility class
+            String dbGuid = GuidUtils.getUserDbGuid(this);
+            Log.d(TAG, "Using GUID for API calls: " + dbGuid);
+            RetrofitClient.setDbName(dbGuid);
 
             // Setup bottom navigation
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);

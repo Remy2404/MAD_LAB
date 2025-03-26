@@ -1,6 +1,9 @@
 package com.example.expense_tracker.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +20,13 @@ import com.example.expense_tracker.R;
 import com.example.expense_tracker.models.Expense;
 import com.example.expense_tracker.routes.ExpenseApi;
 import com.example.expense_tracker.routes.RetrofitClient;
+import com.example.expense_tracker.utils.GuidUtils;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,14 +83,11 @@ public class ExpenseDetailFragment extends Fragment {
     private void loadExpenseDetails() {
         progressBar.setVisibility(View.VISIBLE);
         
-        // Get the auth token
-        String authToken = "";
-        if (mAuth.getCurrentUser() != null) {
-            authToken = mAuth.getCurrentUser().getUid();
-        }
+        // Get the GUID using our utility class
+        String dbGuid = GuidUtils.getUserDbGuid(requireContext());
         
         ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
-        Call<Expense> call = expenseAPI.getExpense(authToken, expenseId);
+        Call<Expense> call = expenseAPI.getExpense(dbGuid, String.valueOf(expenseId));
         
         call.enqueue(new Callback<Expense>() {
             @Override
@@ -94,13 +96,21 @@ public class ExpenseDetailFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     displayExpenseDetails(response.body());
                 } else {
-                    Toast.makeText(getContext(), "Failed to load expense details", Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                        Log.e("ExpenseDetailFragment", "Error loading expense: " + response.code() + " - " + errorBody);
+                        Toast.makeText(getContext(), "Failed to load expense details", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Log.e("ExpenseDetailFragment", "Error parsing error response", e);
+                        Toast.makeText(getContext(), "Failed to load expense details", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Expense> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                Log.e("ExpenseDetailFragment", "API call failed", t);
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -136,14 +146,11 @@ public class ExpenseDetailFragment extends Fragment {
     private void deleteExpense() {
         progressBar.setVisibility(View.VISIBLE);
         
-        // Get the auth token
-        String authToken = "";
-        if (mAuth.getCurrentUser() != null) {
-            authToken = mAuth.getCurrentUser().getUid();
-        }
+        // Get the GUID using our utility class
+        String dbGuid = GuidUtils.getUserDbGuid(requireContext());
         
         ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
-        Call<Void> call = expenseAPI.deleteExpense(authToken, expenseId);
+        Call<Void> call = expenseAPI.deleteExpense(dbGuid, String.valueOf(expenseId));
         
         call.enqueue(new Callback<Void>() {
             @Override
@@ -153,13 +160,21 @@ public class ExpenseDetailFragment extends Fragment {
                     Toast.makeText(getContext(), "Expense deleted successfully", Toast.LENGTH_SHORT).show();
                     requireActivity().onBackPressed();
                 } else {
-                    Toast.makeText(getContext(), "Failed to delete expense", Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                        Log.e("ExpenseDetailFragment", "Error deleting expense: " + response.code() + " - " + errorBody);
+                        Toast.makeText(getContext(), "Failed to delete expense", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Log.e("ExpenseDetailFragment", "Error parsing error response", e);
+                        Toast.makeText(getContext(), "Failed to delete expense", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                Log.e("ExpenseDetailFragment", "API call failed", t);
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

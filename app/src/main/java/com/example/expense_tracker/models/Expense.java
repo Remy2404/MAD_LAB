@@ -10,6 +10,9 @@ public class Expense {
     @SerializedName("id")
     private String id;
     
+    @SerializedName("title")
+    private String title;
+    
     @SerializedName("amount")
     private double amount;
     
@@ -109,6 +112,13 @@ public class Expense {
     }
 
     public String getTitle() {
+        if (title != null && !title.isEmpty()) {
+            return title;
+        }
         return this.category + " - " + this.amount + " " + this.currency;
+    }
+    
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
