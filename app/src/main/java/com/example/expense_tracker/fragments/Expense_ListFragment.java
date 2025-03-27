@@ -72,8 +72,7 @@ public class Expense_ListFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         try {
-            // Get a valid GUID from GuidUtils
-            String dbGuid = GuidUtils.getUserDbGuid(requireContext());
+                        String dbGuid = GuidUtils.getUserDbGuid(getContext());
             Log.d(TAG, "Using GUID for API call: " + dbGuid);
 
             ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);

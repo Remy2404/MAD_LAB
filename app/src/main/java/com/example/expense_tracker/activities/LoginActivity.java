@@ -1,11 +1,13 @@
 package com.example.expense_tracker.activities;
 
+import static com.example.expense_tracker.utils.GuidUtils.DB_GUID_PREFIX;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.expense_tracker.R;
+import com.example.expense_tracker.routes.RetrofitClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.example.expense_tracker.utils.GuidUtils;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvSignUp;
     private SharedPreferences preferences;
     private static final String PREF_NAME = "expense_tracker_prefs";
+    private static final String TAG = "LoginActivity";
     private static final String IS_LOGGED_IN = "is_logged_in";
     private static final String CURRENT_USER = "current_user";
     private FirebaseAuth mAuth;
@@ -36,14 +42,16 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        
-        // Check if user is already logged in
-        if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-            return;
-        }
 
+        // Check if user is already logged in
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String dbGuid = GuidUtils.getUserDbGuid(LoginActivity.this);
+            Log.d(TAG, "User logged in with GUID: " + dbGuid);
+            
+            // Initialize Retrofit with this GUID
+            RetrofitClient.setDbName(dbGuid);
+        }
         // Initialize preferences
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
@@ -104,21 +112,30 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Save login state
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                // Retrieve or generate the GUID for the user
+                                String dbGuid = GuidUtils.getUserDbGuid(LoginActivity.this);
+                                Log.d(TAG, "User logged in with GUID: " + dbGuid);
+    
+                                // Initialize Retrofit with this GUID
+                                RetrofitClient.setDbName(dbGuid);
+                            }
+    
                             saveLoginState(email);
-                            
-                            // Navigate to success screen
-                            Intent intent = new Intent(LoginActivity.this, LoginSuccessActivity.class);
-                            intent.putExtra("user_email", email);
-                            startActivity(intent);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed: " + 
-                                          task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,
+                                    "Authentication failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+    private boolean isFirstLogin(String userId) {
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        return !prefs.contains(DB_GUID_PREFIX + userId);
     }
 
     private void saveLoginState(String email) {

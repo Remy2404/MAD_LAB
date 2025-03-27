@@ -22,8 +22,7 @@ import com.example.expense_tracker.routes.RetrofitClient;
 import com.example.expense_tracker.utils.GuidUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.UUID;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -35,22 +34,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         try {
-            // Remove toolbar setup - it's causing the conflict
-            
             mAuth = FirebaseAuth.getInstance();
 
             // Check if user is logged in
             if (mAuth.getCurrentUser() == null) {
-                // User is not logged in, redirect to login
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return;
             }
 
-            // Set the user GUID as the database name for Retrofit using our utility class
-            String dbGuid = GuidUtils.getUserDbGuid(this);
-            Log.d(TAG, "Using GUID for API calls: " + dbGuid);
-            RetrofitClient.setDbName(dbGuid);
+            // Get current Firebase user
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                // Get the stored GUID for this user (or generate a new one if needed)
+                String dbGuid = GuidUtils.getUserDbGuid(this);
+                Log.d(TAG, "Using stored GUID for user: " + dbGuid);
+                
+                // Initialize Retrofit with this GUID
+                RetrofitClient.setDbName(dbGuid);
+            }
 
             // Setup bottom navigation
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
