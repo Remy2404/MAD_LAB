@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.play.services.tasks)
     implementation(libs.firebase.auth)
     implementation(libs.litert.support.api)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -78,6 +78,10 @@
     <string name="expense_list">Expense List</string>
     <string name="home">Home</string>
     <string name="profile">profile</string>
+    <string name="delete_icon">del</string>
+    <string name="decrease_quantity">Decrease quantity</string>
+    <string name="increase_quantity">Increase quantity</string>
+    <string name="currency">currency</string>
 
     <string-array name="categories">
         <item>Food</item>

@@ -9,34 +9,37 @@ import java.util.Date;
 public class Expense {
     @SerializedName("id")
     private String id;
-    
+
     @SerializedName("title")
     private String title;
-    
+
     @SerializedName("amount")
     private double amount;
-    
+
     @SerializedName("currency")
     private String currency;
-    
+
     @SerializedName("category")
     private String category;
-    
+
     @SerializedName("categoryObject")
     private Category categoryObject;
-    
+
     @SerializedName("remark")
     private String remark;
-    
+
     @SerializedName("createdBy")
     private String createdBy;
-    
+
     @SerializedName("user")
     private User user;
-    
+
     @SerializedName("createdDate")
     @JsonAdapter(ISO8601DateAdapter.class)
     private Date createdDate;
+
+    @SerializedName("quantity")
+    private Integer quantity;
 
     // Getters and Setters
     public String getId() {
@@ -70,11 +73,11 @@ public class Expense {
     public void setCategory(String category) {
         this.category = category;
     }
-    
+
     public Category getCategoryObject() {
         return categoryObject;
     }
-    
+
     public void setCategoryObject(Category categoryObject) {
         this.categoryObject = categoryObject;
     }
@@ -94,11 +97,11 @@ public class Expense {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    
+
     public User getUser() {
         return user;
     }
-    
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -117,8 +120,16 @@ public class Expense {
         }
         return this.category + " - " + this.amount + " " + this.currency;
     }
-    
+
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getQuantity() {
+        return quantity != null ? quantity : 1; // Default to 1 if null
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

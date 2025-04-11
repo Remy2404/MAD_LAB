@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="currency_array">
+    <string-array name="currency_options">
         <item>USD</item>
         <item>EUR</item>
         <item>GBP</item>
-        <item>INR</item>
         <item>JPY</item>
         <item>CAD</item>
         <item>AUD</item>
+        <item>CNY</item>
+        <item>INR</item>
     </string-array>
     
-    <string-array name="category_array">
+    <string-array name="category_options">
         <item>Food</item>
-        <item>Transport</item>
+        <item>Transportation</item>
+        <item>Housing</item>
+        <item>Utilities</item>
+        <item>Healthcare</item>
         <item>Entertainment</item>
         <item>Shopping</item>
-        <item>Utilities</item>
-        <item>Housing</item>
-        <item>Travel</item>
-        <item>Health</item>
         <item>Education</item>
+        <item>Personal Care</item>
+        <item>Travel</item>
         <item>Other</item>
     </string-array>
 </resources>

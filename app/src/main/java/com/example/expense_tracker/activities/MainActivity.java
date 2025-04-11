@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         try {
             mAuth = FirebaseAuth.getInstance();
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 // Get the stored GUID for this user (or generate a new one if needed)
                 String dbGuid = GuidUtils.getUserDbGuid(this);
                 Log.d(TAG, "Using stored GUID for user: " + dbGuid);
-                
+
                 // Initialize Retrofit with this GUID
                 RetrofitClient.setDbName(dbGuid);
             }
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
                 try {
                     int itemId = item.getItemId();
-                    
+
                     if (itemId == R.id.nav_home) {
                         loadFragment(new HomeFragment(), "HomeFragment");
                         return true;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "Error loading fragment: " + e.getMessage());
                     Toast.makeText(this, "Error loading screen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                
+
                 return false;
             });
 
@@ -93,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Error loading initial screen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
+
+            // Initialize the Sign Out FAB
+            findViewById(R.id.fabSignOut).setOnClickListener(v -> {
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            });
         } catch (Exception e) {
             Log.e(TAG, "Error in onCreate: " + e.getMessage());
             Toast.makeText(this, "Startup error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -138,11 +146,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadFragment(Fragment fragment, String tag) {
+    public void loadFragment(Fragment fragment, String tag) {
         if (isFinishing() || isDestroyed()) {
             return;
         }
-        
+
         try {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment, tag);
@@ -154,5 +162,21 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "Error in loadFragment: " + e.getMessage());
             Toast.makeText(this, "Navigation error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
 }

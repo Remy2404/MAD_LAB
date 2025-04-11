@@ -66,4 +66,8 @@
     <string name="createdate">CreateDate</string>
     <string name="back">back</string>
     <string name="profile">profile</string>
+    <string name="delete_icon">del</string>
+    <string name="decrease_quantity">Decrease quantity</string>
+    <string name="increase_quantity">Increase quantity</string>
+    <string name="currency">currency</string>
 </resources>

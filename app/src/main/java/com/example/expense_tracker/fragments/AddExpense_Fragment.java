@@ -68,7 +68,7 @@ public class AddExpense_Fragment extends Fragment {
         // Set up currency spinner
         ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
-                R.array.currency_array,
+                R.array.currency_options,
                 android.R.layout.simple_spinner_item
         );
         currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,7 +77,7 @@ public class AddExpense_Fragment extends Fragment {
         // Set up category spinner
         ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
-                R.array.category_array,
+                R.array.categories,
                 android.R.layout.simple_spinner_item
         );
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

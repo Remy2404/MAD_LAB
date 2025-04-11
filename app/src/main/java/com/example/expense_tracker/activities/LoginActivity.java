@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.WindowManager;
 
 import com.example.expense_tracker.R;
 import com.example.expense_tracker.routes.RetrofitClient;
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
             // Initialize Retrofit with this GUID
             RetrofitClient.setDbName(dbGuid);
         }
+        hideSystemUI();
         // Initialize preferences
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
@@ -144,4 +146,20 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(CURRENT_USER, email);
         editor.apply();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+
 }

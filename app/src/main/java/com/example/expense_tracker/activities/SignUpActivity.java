@@ -1,6 +1,7 @@
 package com.example.expense_tracker.activities;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.View;
 
 import com.example.expense_tracker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.textInputEditText2);
         etConfirmPassword = findViewById(R.id.textInputEditText3);
         btnContinue = findViewById(R.id.button_continue);
-        
+
         btnContinue.setOnClickListener(v -> {
             String firstName = etFirstName.getText().toString().trim();
             String lastName = etLastName.getText().toString().trim();
@@ -56,6 +58,23 @@ public class SignUpActivity extends AppCompatActivity {
                 registerUser(email, password, firstName, lastName);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        );
     }
 
     private boolean validateInput(String firstName, String lastName, String password, String confirmPassword) {
@@ -98,11 +117,11 @@ public class SignUpActivity extends AppCompatActivity {
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(displayName)
                                     .build();
-                            
+
                             mAuth.getCurrentUser().updateProfile(profileUpdates);
-                            
+
                             // Navigate to login success screen
-                            Intent intent = new Intent(SignUpActivity.this, LoginSuccessActivity.class);
+                             Intent intent = new Intent(SignUpActivity.this, LoginSuccessActivity.class);
                             intent.putExtra("user_email", email);
                             startActivity(intent);
                             finish();

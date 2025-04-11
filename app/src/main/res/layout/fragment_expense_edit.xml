@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="24dp"
-                    android:text="Add New Expense"
+                    android:text="Edit Expense"
                     android:textColor="@color/black"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -53,7 +53,7 @@
                     app:startIconTint="@color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTitle"
+                        android:id="@+id/editTextTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text" />
@@ -74,7 +74,7 @@
                     app:startIconTint="@color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAmount"
+                        android:id="@+id/editTextAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal" />
@@ -100,7 +100,7 @@
                     app:strokeWidth="1dp">
 
                     <Spinner
-                        android:id="@+id/spinnerCurrency"
+                        android:id="@+id/currencySpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:entries="@array/currency_options"
@@ -128,10 +128,10 @@
                     app:strokeWidth="1dp">
 
                     <Spinner
-                        android:id="@+id/spinnerCategory"
+                        android:id="@+id/categorySpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/categories"
+                        android:entries="@array/category_options"
                         android:minHeight="48dp"
                         android:padding="12dp" />
                 </com.google.android.material.card.MaterialCardView>
@@ -150,7 +150,7 @@
                     app:startIconTint="@color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etRemark"
+                        android:id="@+id/editTextRemark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top|start"
@@ -160,13 +160,14 @@
 
                 <!-- Buttons -->
                 <LinearLayout
+                    android:id="@+id/buttonLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:orientation="horizontal">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnCancel"
+                        android:id="@+id/buttonCancel"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="56dp"
@@ -178,18 +179,28 @@
                         app:cornerRadius="12dp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSave"
+                        android:id="@+id/buttonSave"
                         android:layout_width="0dp"
                         android:layout_height="56dp"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
-                        android:text="Add Expense"
+                        android:text="Save Changes"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:cornerRadius="12dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
