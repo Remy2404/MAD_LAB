@@ -18,7 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
 
     private EditText etFirstName, etLastName, etPassword, etConfirmPassword;
     private Button btnContinue;
@@ -53,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
             String lastName = etLastName.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             String confirmPassword = etConfirmPassword.getText().toString().trim();
-            
+
             if (validateInput(firstName, lastName, password, confirmPassword)) {
                 registerUser(email, password, firstName, lastName);
             }
@@ -73,8 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        );
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
 
     private boolean validateInput(String firstName, String lastName, String password, String confirmPassword) {
@@ -121,7 +120,7 @@ public class SignUpActivity extends AppCompatActivity {
                             mAuth.getCurrentUser().updateProfile(profileUpdates);
 
                             // Navigate to login success screen
-                             Intent intent = new Intent(SignUpActivity.this, LoginSuccessActivity.class);
+                            Intent intent = new Intent(SignUpActivity.this, LoginSuccessActivity.class);
                             intent.putExtra("user_email", email);
                             startActivity(intent);
                             finish();

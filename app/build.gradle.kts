@@ -49,6 +49,15 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    implementation("androidx.room:room-ktx:2.7.0")
+    // Preference for settings
+    implementation("androidx.preference:preference:1.2.1")
+
+    implementation(libs.swiperefreshlayout)
+    
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
@@ -56,6 +65,10 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.litert.support.api)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+    implementation(libs.room.rxjava2)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

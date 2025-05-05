@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="Language Settings"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="en"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            android:key="language_preference"
+            android:summary="Choose application language"
+            android:title="Language"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

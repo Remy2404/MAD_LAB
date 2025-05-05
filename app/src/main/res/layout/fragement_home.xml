@@ -39,7 +39,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:contentDescription="home"
+                        android:contentDescription="@string/home"
                         android:src="@drawable/ic_home" />
 
                     <TextView
@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Welcome to Expense Tracker"
+                        android:text="@string/welcome_to_expense_tracker"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Manage Your Expense Efficiently"
+                        android:text="@string/manage_expense_efficiently"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Total Income"
+                        android:text="@string/total_income"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Total Expense"
+                        android:text="@string/total_expense"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -166,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Balance"
+                        android:text="@string/balance"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 

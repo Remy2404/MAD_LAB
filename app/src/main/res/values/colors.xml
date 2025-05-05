@@ -24,6 +24,7 @@
     <color name="input_text">#333333</color>
     <color name="input_hint">#888888</color>
     <color name="subtitle">#969AA8</color>
+    <color name="light_gray">#D3D3D3</color>
 
 
 </resources>

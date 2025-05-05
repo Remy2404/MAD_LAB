@@ -16,7 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
 
-public class EmailConfirmActivity extends AppCompatActivity {
+public class EmailConfirmActivity extends BaseActivity {
 
     private EditText etEmail;
     private Button btnContinue;

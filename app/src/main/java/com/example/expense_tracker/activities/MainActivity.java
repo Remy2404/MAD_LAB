@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,13 +18,15 @@ import com.example.expense_tracker.fragments.AddExpense_Fragment;
 import com.example.expense_tracker.fragments.ExpenseDetailFragment;
 import com.example.expense_tracker.fragments.Expense_ListFragment;
 import com.example.expense_tracker.fragments.HomeFragment;
+import com.example.expense_tracker.fragments.SettingFragment;
 import com.example.expense_tracker.routes.RetrofitClient;
 import com.example.expense_tracker.utils.GuidUtils;
+import com.example.expense_tracker.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private static final String TAG = "MainActivity";
 
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     } else if (itemId == R.id.nav_expense_list) {
                         loadFragment(new Expense_ListFragment(), "Expense_ListFragment");
+                        return true;
+                    } else if (itemId == R.id.nav_settings) {
+                        loadFragment(new SettingFragment(), "SettingFragment");
                         return true;
                     }
                 } catch (Exception e) {

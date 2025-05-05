@@ -41,6 +41,7 @@
 
         <!-- Main Activities -->
         <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.AddCategoryActivity" />
         <!-- File provider for camera functionality -->
         <provider
             android:name="androidx.core.content.FileProvider"

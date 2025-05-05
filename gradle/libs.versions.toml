@@ -11,6 +11,10 @@ playServicesTasks = "18.2.1"
 firebaseAuth = "23.2.0"
 litertSupportApi = "1.2.0"
 firebaseCrashlyticsBuildtools = "3.0.3"
+roomRxjava2 = "2.7.0"
+rxandroid = "2.1.1"
+rxjava = "2.2.21"
+swiperefreshlayout = "1.1.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,6 +28,10 @@ play-services-tasks = { group = "com.google.android.gms", name = "play-services-
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 litert-support-api = { group = "com.google.ai.edge.litert", name = "litert-support-api", version.ref = "litertSupportApi" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomRxjava2" }
+rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
+swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

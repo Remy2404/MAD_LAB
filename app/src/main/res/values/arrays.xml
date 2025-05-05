@@ -24,4 +24,15 @@
         <item>Travel</item>
         <item>Other</item>
     </string-array>
+
+    <!-- Arrays for language preference -->
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>ខ្មែរ (Khmer)</item>
+    </string-array>
+    
+    <string-array name="language_values">
+        <item>en</item>
+        <item>km</item>
+    </string-array>
 </resources>

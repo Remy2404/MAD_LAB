@@ -1,6 +1,7 @@
 package com.example.expense_tracker.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import com.example.expense_tracker.R;
+import com.example.expense_tracker.activities.AddCategoryActivity;
+import com.example.expense_tracker.db.AppDatabase;
+import com.example.expense_tracker.db.CategoryEntity;
 import com.example.expense_tracker.models.Expense;
 import com.example.expense_tracker.routes.ExpenseApi;
 import com.example.expense_tracker.routes.RetrofitClient;
@@ -25,8 +30,12 @@ import com.example.expense_tracker.utils.GuidUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,12 +45,16 @@ public class AddExpense_Fragment extends Fragment {
 
     private EditText etAmount, etRemark, etTitle;
     private Spinner spinnerCurrency, spinnerCategory;
-    private Button btnSave, btnCancel;
+    private Button btnSave, btnCancel, btnAddCategory;
     private FirebaseAuth mAuth;
+    private ArrayAdapter<String> categoryAdapter;
+    private List<CategoryEntity> categoryList = new ArrayList<>();
+    private ExecutorService executorService;
+    private static final String TAG = "AddExpense_Fragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_expense, container, false);
     }
@@ -49,13 +62,16 @@ public class AddExpense_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         // Set the title for the fragment
         requireActivity().setTitle("Add Expense");
-        
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        
+
+        // Initialize ExecutorService for background operations
+        executorService = Executors.newSingleThreadExecutor();
+
         // Initialize views
         etAmount = view.findViewById(R.id.etAmount);
         etRemark = view.findViewById(R.id.etRemark);
@@ -64,51 +80,112 @@ public class AddExpense_Fragment extends Fragment {
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
         btnSave = view.findViewById(R.id.btnSave);
         btnCancel = view.findViewById(R.id.btnCancel);
-        
+        btnAddCategory = view.findViewById(R.id.btnAddCategory);
+
         // Set up currency spinner
         ArrayAdapter<CharSequence> currencyAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.currency_options,
-                android.R.layout.simple_spinner_item
-        );
+                android.R.layout.simple_spinner_item);
         currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCurrency.setAdapter(currencyAdapter);
-        
-        // Set up category spinner
-        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.categories,
-                android.R.layout.simple_spinner_item
-        );
+
+        // Set up category spinner with an empty adapter initially
+        categoryAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, new ArrayList<>());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(categoryAdapter);
-        
+
+        // Load categories from RoomDB
+        loadCategories();
+
         // Set up button click listeners
         btnSave.setOnClickListener(v -> saveExpense());
         btnCancel.setOnClickListener(v -> getParentFragmentManager().popBackStack());
+        btnAddCategory.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), AddCategoryActivity.class);
+            startActivity(intent);
+        });
     }
-    
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Reload categories when coming back from AddCategoryActivity
+        loadCategories();
+    }
+
+    private void loadCategories() {
+        executorService.execute(() -> {
+            try {
+                // Get categories from RoomDB
+                List<CategoryEntity> dbCategories = AppDatabase.getInstance(requireContext())
+                        .categoryDao()
+                        .getAllCategories();
+
+                // Update the categoryList
+                categoryList.clear();
+                categoryList.addAll(dbCategories);
+
+                // Create a new list for the adapter
+                List<String> categoryNames = new ArrayList<>();
+                for (CategoryEntity category : categoryList) {
+                    categoryNames.add(category.getName());
+                }
+
+                // Add default categories if the list is empty
+                if (categoryNames.isEmpty()) {
+                    String[] defaultCategories = requireContext().getResources()
+                            .getStringArray(R.array.category_options);
+                    for (String category : defaultCategories) {
+                        categoryNames.add(category);
+                        // Also save these default categories to RoomDB
+                        CategoryEntity categoryEntity = new CategoryEntity(
+                                UUID.randomUUID().toString(), category);
+                        AppDatabase.getInstance(requireContext())
+                                .categoryDao()
+                                .insert(categoryEntity);
+                    }
+                }
+
+                // Update the adapter on the main thread
+                requireActivity().runOnUiThread(() -> {
+                    categoryAdapter.clear();
+                    categoryAdapter.addAll(categoryNames);
+                    categoryAdapter.notifyDataSetChanged();
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Error loading categories", e);
+                requireActivity().runOnUiThread(() -> {
+                    Toast.makeText(requireContext(),
+                            "Error loading categories: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
     private void saveExpense() {
         try {
             // Validate input
             String title = etTitle.getText().toString().trim();
             String amountStr = etAmount.getText().toString().trim();
-            
+
             if (title.isEmpty()) {
                 etTitle.setError("Title is required");
                 return;
             }
-            
+
             if (amountStr.isEmpty()) {
                 etAmount.setError("Amount is required");
                 return;
             }
-            
+
             double amount = Double.parseDouble(amountStr);
             String currency = spinnerCurrency.getSelectedItem().toString();
             String category = spinnerCategory.getSelectedItem().toString();
             String remark = etRemark.getText().toString().trim();
-            
+
             // Create expense object
             Expense expense = new Expense();
             expense.setId(UUID.randomUUID().toString());
@@ -118,18 +195,18 @@ public class AddExpense_Fragment extends Fragment {
             expense.setCategory(category);
             expense.setRemark(remark);
             expense.setCreatedDate(new Date());
-            
+
             if (mAuth.getCurrentUser() != null) {
                 String userId = mAuth.getCurrentUser().getUid();
                 expense.setCreatedBy(userId);
-                
+
                 // Get the GUID using our utility class
                 String dbGuid = GuidUtils.getUserDbGuid(requireContext());
-                
+
                 // Send POST request to API
                 ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
                 Call<Expense> call = expenseAPI.createExpense(dbGuid, expense);
-                
+
                 call.enqueue(new Callback<Expense>() {
                     @Override
                     public void onResponse(Call<Expense> call, Response<Expense> response) {
@@ -140,7 +217,8 @@ public class AddExpense_Fragment extends Fragment {
                             try {
                                 String errorBody = response.errorBody().string();
                                 Log.e("API Error", "Error code: " + response.code() + ", body: " + errorBody);
-                                Toast.makeText(getContext(), "Failed to save expense: " + response.code(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Failed to save expense: " + response.code(),
+                                        Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 Log.e("API Error", "Error parsing error response", e);
                                 Toast.makeText(getContext(), "Failed to save expense", Toast.LENGTH_SHORT).show();
@@ -158,6 +236,15 @@ public class AddExpense_Fragment extends Fragment {
             }
         } catch (NumberFormatException e) {
             etAmount.setError("Invalid amount");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Shutdown ExecutorService when fragment is destroyed
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
         }
     }
 }

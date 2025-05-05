@@ -1,7 +1,5 @@
 package com.example.expense_tracker.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +9,7 @@ import android.view.View;
 
 import com.example.expense_tracker.R;
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends BaseActivity {
 
     private static final String PREF_NAME = "expense_tracker_prefs";
     private static final String IS_LOGGED_IN = "is_logged_in";

@@ -10,17 +10,17 @@
     <string name="add_image">Add Image</string>
     <string name="hamburger_image">Hamburger Image</string>
     <string name="remark_hint">Remark</string>
-    <string name="logo_re">logo_re</string>"
-    <string name = "Track_your_expenses">Track your expenses and achieve financial clarity</string>
+    <string name="logo_re">logo_re</string>
+    <string name="Track_your_expenses">Track your expenses and achieve financial clarity</string>
     <string name="manage_your_expenses">Manage your expenses effortlessly and gain financial insights</string>
-    <string name="USD">USD</string>">
-    <string name="Get_Started">Get Started</string>">
+    <string name="USD">USD</string>
+    <string name="Get_Started">Get Started</string>
     <string name="forgot_password">Forgot password</string>
     <string name="Keep_me_signed_in">Keep me signed in</string>
-    <string name="KHR">KHR</string>">
-    <string name="Sign_in" >Sign in </string>
+    <string name="KHR">KHR</string>
+    <string name="Sign_in">Sign in</string>
     <string name="sign_up_here">Sign Up here</string>
-    <string name="dont_have_account">Don’t have an account?</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
     <string name="you_can_connect_with">You can Connect with</string>
 
     <string name="add_new_expense">Add New Expense</string>
@@ -31,14 +31,15 @@
     <string name="add_receipt">Add Receipt</string>
     <string name="capture_receipt">Capture Receipt</string>
     <string name="recurring_expense">Recurring Expense</string>
-    <string name="add_expense">ADD EXPENSE</string>
+    <string name="add_expense">Add Expense</string>
     <string name="Expense_tracker_app" translatable="false">Expense tracker app</string>
     <string name="Email_hint" translatable="false">Enter your email</string>
     <string name="Email_or_Phone_Number" translatable="false">Email or Phone Number</string>
-    <string name="Continues"> Continue</string>
-    <string name = "Create_your_account" translatable="false"> Create your account</string>
-    <string name="Create_account_for_exploring_news" translatable="false" >Create account for exploring news</string>
+    <string name="Continues">Continue</string>
+    <string name="Create_your_account" translatable="false">Create your account</string>
+    <string name="Create_account_for_exploring_news" translatable="false">Create account for exploring news</string>
     <string name="barview" translatable="false">barview</string>
+    
     <!-- Content Descriptions -->
     <string name="amount_icon_desc">Amount icon</string>
     <string name="currency_icon_desc">Currency icon</string>
@@ -50,38 +51,78 @@
     <string name="btn_edit" translatable="false">btn_edit</string>
     <string name="btn_delete" translatable="false">btn_delete</string>
     <string name="btn_save" translatable="false">btn_save</string>
-    <string name="Expense_Details" translatable="false" >Expense Details</string>
+    <string name="Expense_Details" translatable="false">Expense Details</string>
     <string name="enter_your_password" translatable="false">Enter your password</string>
     <string name="enter_your_email" translatable="false">Enter your email</string>
     <string name="email_or_phone_number" translatable="false">Email or Phone Number</string>
     <string name="expense_tracker_app" translatable="false">expense tracker app</string>
-    <string name="let_s_login_for_explore_continues">Let’s login for explore continues</string>
+    <string name="let_s_login_for_explore_continues">Let\'s login for explore continues</string>
     <string name="welcome_back" translatable="false">Welcome Back!</string>
-    <string name="Facebook" translatable="false" />
-    <string name="white_bg" />
+    <string name="Facebook" translatable="false">Facebook</string>
+    <string name="white_bg">White background</string>
     <string name="create_account_for_exploring_news">Create account for exploring news</string>
     <string name="create_your_account" translatable="false">Create your account</string>
     <string name="continues" translatable="false">Continue</string>
     <string name="first_name">First Name</string>
-    <string name="last_name">last name\n</string>
-    <string name="button_continue">continue</string>
+    <string name="last_name">Last Name</string>
+    <string name="button_continue">Continue</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="amount">amount</string>
-    <string name="category">category</string>
-    <string name="remark">remark</string>
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
+    <string name="remark">Remark</string>
     <string name="sign_out" translatable="false">Sign Out</string>
-    <string name="cancel">cancel</string>
-    <string name="createdate">CreateDate</string>
+    <string name="cancel">Cancel</string>
+    <string name="createdate">Create Date</string>
     <string name="expense_details">Expense Details</string>
-    <string name="back">back</string>
-    <string name="expense_list">Expense List</string>
-    <string name="home">Home</string>
-    <string name="profile">profile</string>
-    <string name="delete_icon">del</string>
+    <string name="back">Back</string>
+    <string name="profile">Profile</string>
+    <string name="delete_icon">Delete</string>
     <string name="decrease_quantity">Decrease quantity</string>
     <string name="increase_quantity">Increase quantity</string>
-    <string name="currency">currency</string>
+    <string name="currency">Currency</string>
+
+    <!-- Home Fragment Strings -->
+    <string name="welcome_to_expense_tracker">Welcome to Expense Tracker</string>
+    <string name="manage_expense_efficiently">Manage your expenses efficiently</string>
+    <string name="total_income">Total Income</string>
+    <string name="total_expense">Total Expense</string>
+    <string name="balance">Balance</string>
+    
+    <!-- Add Expense Fragment Strings -->
+    <string name="expense_title">Expense Title</string>
+    <string name="select_currency">Select Currency</string>
+    <string name="select_category">Select Category</string>
+    <string name="save_changes">Save Changes</string>
+    
+    <!-- Expense List Fragment Strings -->
+    <string name="no_expenses_found">No expenses found</string>
+    <string name="no_expenses_yet">No expenses yet</string>
+    <string name="add_first_expense">Add your first expense using the button below</string>
+    <string name="add_new_expense_desc">Add new expense</string>
+    
+    <!-- Bottom Navigation Menu Labels -->
+    <string name="home">Home</string>
+    <string name="expense_list">Expenses</string>
+    <string name="settings">Settings</string>
+    
+    <!-- Settings Screen -->
+    <string name="language_settings">Language Settings</string>
+    <string name="language">Language</string>
+    <string name="choose_language">Choose application language</string>
+    <string name="english">English</string>
+    <string name="khmer">ខ្មែរ (Khmer)</string>
+    
+    <!-- Add Category Screen -->
+    <string name="add_category">Add Category</string>
+    <string name="category_name">Category Name</string>
+    <string name="category_name_required">Category name is required</string>
+    <string name="category_added">Category added successfully</string>
+    <string name="error_adding_category">Error adding category</string>
+    <string name="add">Add</string>
+    <string name="edit_expense">Edit Expense</string>
+    <string name="category_icon">Category Icon</string>
+    <string name="optional_remark_here">Optional remark here</string>
 
     <string-array name="categories">
         <item>Food</item>

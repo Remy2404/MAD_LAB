@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="24dp"
-                    android:text="Add New Expense"
+                    android:text="@string/add_new_expense"
                     android:textColor="@color/black"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -45,7 +45,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Expense Title"
+                    android:hint="@string/expense_title"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Amount"
+                    android:hint="@string/amount"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
-                    android:text="Select Currency"
+                    android:text="@string/select_currency"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -114,27 +114,47 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
-                    android:text="Select Category"
+                    android:text="@string/select_category"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <com.google.android.material.card.MaterialCardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/black"
-                    app:strokeWidth="1dp">
+                    android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/spinnerCategory"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:entries="@array/categories"
-                        android:minHeight="48dp"
-                        android:padding="12dp" />
-                </com.google.android.material.card.MaterialCardView>
+                        android:layout_weight="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp">
+
+                        <Spinner
+                            android:id="@+id/spinnerCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="48dp"
+                            android:padding="12dp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddCategory"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="12dp"
+                        app:icon="@drawable/ic_add"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp" />
+                </LinearLayout>
 
                 <!-- Remark Input -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -142,7 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="Remark"
+                    android:hint="@string/remark"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -172,7 +192,7 @@
                         android:layout_height="56dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:text="Cancel"
+                        android:text="@string/cancel"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:cornerRadius="12dp" />
@@ -184,7 +204,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
-                        android:text="Add Expense"
+                        android:text="@string/add_expense"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:cornerRadius="12dp" />

@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.example.expense_tracker.utils.GuidUtils;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private EditText etEmail, etPassword;
     private Button btnLogin;

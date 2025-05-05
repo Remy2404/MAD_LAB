@@ -1,38 +1,30 @@
 package com.example.expense_tracker.models;
 
-import com.google.gson.annotations.SerializedName;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "categories")
 public class Category {
-    @SerializedName("id")
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    private long id;
 
-    @SerializedName("name")
     private String name;
-
-    @SerializedName("description")
-    private String description;
-
-    @SerializedName("icon")
+    private String color;
     private String icon;
 
-    // Constructors
-    public Category() {
-        // Default constructor required for calls to DataSnapshot.getValue(Category.class)
-    }
-
-    public Category(String id, String name, String description, String icon) {
-        this.id = id;
+    // Constructor
+    public Category(String name, String color, String icon) {
         this.name = name;
-        this.description = description;
+        this.color = color;
         this.icon = icon;
     }
 
     // Getters and Setters
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -44,12 +36,12 @@ public class Category {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getColor() {
+        return color;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getIcon() {

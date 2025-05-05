@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.expense_tracker.R;
 
-public class LoginSuccessActivity extends AppCompatActivity {
+public class LoginSuccessActivity extends BaseActivity {
 
     private Button btnExplore;
     private TextView tvWelcomeMessage;
