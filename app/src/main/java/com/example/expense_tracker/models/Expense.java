@@ -35,13 +35,17 @@ public class Expense {
     private User user;
 
     @SerializedName("createdDate")
+
     @JsonAdapter(ISO8601DateAdapter.class)
     private Date createdDate;
-
     @SerializedName("quantity")
     private Integer quantity;
 
+    @SerializedName("receiptImageUrl")
+    private String receiptImageUrl;
+
     // Getters and Setters
+
     public String getId() {
         return id;
     }
@@ -131,5 +135,13 @@ public class Expense {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getReceiptImageUrl() {
+        return receiptImageUrl;
+    }
+
+    public void setReceiptImageUrl(String receiptImageUrl) {
+        this.receiptImageUrl = receiptImageUrl;
     }
 }

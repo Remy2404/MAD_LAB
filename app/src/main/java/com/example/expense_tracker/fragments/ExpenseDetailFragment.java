@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.expense_tracker.R;
 import com.example.expense_tracker.models.Expense;
 import com.example.expense_tracker.routes.ExpenseApi;
@@ -33,7 +37,6 @@ import retrofit2.Response;
 
 public class ExpenseDetailFragment extends Fragment {
     private static final String TAG = "ExpenseDetailFragment";
-    
     private String expenseId;
     private FirebaseAuth mAuth;
     private TextView expenseTitle, amountText, remarkText, createdDateText, createdByText;
@@ -41,31 +44,33 @@ public class ExpenseDetailFragment extends Fragment {
     private ProgressBar progressBar;
     private FloatingActionButton fabAddExpense;
     private Expense currentExpense;
+    private LinearLayout receiptImageContainer;
+    private ImageView receiptImageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_expense_detail, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        
+
         // Get expense ID from arguments
         if (getArguments() != null) {
             expenseId = getArguments().getString("expense_id");
         }
-        
+
         // Initialize views
         initializeViews(view);
-        
+
         // Set up click listeners
         setupClickListeners();
-        
+
         // Load expense details
         if (expenseId != null && !expenseId.isEmpty()) {
             loadExpenseDetails();
@@ -74,7 +79,7 @@ public class ExpenseDetailFragment extends Fragment {
             requireActivity().onBackPressed();
         }
     }
-    
+
     private void initializeViews(View view) {
         expenseTitle = view.findViewById(R.id.expenseTitle);
         amountText = view.findViewById(R.id.amountText);
@@ -84,29 +89,32 @@ public class ExpenseDetailFragment extends Fragment {
         createdByText = view.findViewById(R.id.createdByText);
         progressBar = view.findViewById(R.id.progressBar);
         fabAddExpense = view.findViewById(R.id.fabAddExpense);
+        receiptImageContainer = view.findViewById(R.id.receiptImageContainer);
+        receiptImageView = view.findViewById(R.id.receiptImageView);
     }
-    
+
     private void setupClickListeners() {
         // Set up FAB
         fabAddExpense.setOnClickListener(v -> navigateToEditExpense());
     }
-    
+
     private void showDeleteConfirmation() {
         // Create a confirmation dialog before deleting
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(
+                requireContext());
         builder.setTitle("Confirm Delete");
         builder.setMessage("Are you sure you want to delete this expense?");
         builder.setPositiveButton("Delete", (dialog, which) -> deleteExpense());
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
-    
+
     private void navigateToEditExpense() {
         if (currentExpense == null) {
             Toast.makeText(getContext(), "Expense details not available", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         // Create a bundle with expense details
         Bundle args = new Bundle();
         args.putString("expense_id", expenseId);
@@ -115,33 +123,28 @@ public class ExpenseDetailFragment extends Fragment {
         args.putString("currency", currentExpense.getCurrency());
         args.putString("category", currentExpense.getCategory());
         args.putString("remark", currentExpense.getRemark());
-        
-        // Navigate to edit fragment (you will need to create this)
-        // For now, show a toast
-        Toast.makeText(getContext(), "Edit functionality coming soon", Toast.LENGTH_SHORT).show();
-        
-        // When you have an edit fragment, uncomment this code
-        /*
+        args.putString("receiptImageUrl", currentExpense.getReceiptImageUrl());
+
+        // Navigate to edit fragment
         ExpenseEditFragment fragment = new ExpenseEditFragment();
         fragment.setArguments(args);
-        
+
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
-        */
     }
-    
+
     private void loadExpenseDetails() {
         progressBar.setVisibility(View.VISIBLE);
-        
+
         // Get the GUID using our utility class
         String dbGuid = GuidUtils.getUserDbGuid(requireContext());
-        
+
         ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
         Call<Expense> call = expenseAPI.getExpense(dbGuid, expenseId);
-        
+
         call.enqueue(new Callback<Expense>() {
             @Override
             public void onResponse(Call<Expense> call, Response<Expense> response) {
@@ -151,7 +154,8 @@ public class ExpenseDetailFragment extends Fragment {
                     displayExpenseDetails(currentExpense);
                 } else {
                     try {
-                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                        String errorBody = response.errorBody() != null ? response.errorBody().string()
+                                : "Unknown error";
                         Log.e(TAG, "Error loading expense: " + response.code() + " - " + errorBody);
                         Toast.makeText(getContext(), "Failed to load expense details", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
@@ -169,7 +173,7 @@ public class ExpenseDetailFragment extends Fragment {
             }
         });
     }
-    
+
     private void displayExpenseDetails(Expense expense) {
         // Set the title (using title if available, otherwise category)
         String title = expense.getTitle();
@@ -177,20 +181,34 @@ public class ExpenseDetailFragment extends Fragment {
             title = expense.getCategory();
         }
         expenseTitle.setText(title);
-        
+
         // Set amount with currency
         amountText.setText(String.format(Locale.getDefault(), "%s %.2f", expense.getCurrency(), expense.getAmount()));
-        
+
         // Set category chip
         categoryChip.setText(expense.getCategory());
-        
+
         // Set remark if available
         if (expense.getRemark() != null && !expense.getRemark().isEmpty()) {
             remarkText.setText(expense.getRemark());
         } else {
             remarkText.setText("No remark");
+        } // Display receipt image if available
+        if (expense.getReceiptImageUrl() != null && !expense.getReceiptImageUrl().isEmpty()) {
+            receiptImageContainer.setVisibility(View.VISIBLE);
+
+            // Load image with Glide
+            Glide.with(this)
+                    .load(expense.getReceiptImageUrl())
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
+                    .into(receiptImageView);
+        } else {
+            // No receipt image, hide the container
+            receiptImageContainer.setVisibility(View.GONE);
         }
-        
+
         // Format and set created date
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy, h:mm a", Locale.getDefault());
@@ -200,21 +218,21 @@ public class ExpenseDetailFragment extends Fragment {
             Log.e(TAG, "Error formatting date", e);
             createdDateText.setText("Created date not available");
         }
-        
+
         // Set created by
         createdByText.setText("Created by " + expense.getCreatedBy());
     }
-    
+
     private void deleteExpense() {
         progressBar.setVisibility(View.VISIBLE);
-        
+
         // Get the GUID using our utility class
         String dbGuid = GuidUtils.getUserDbGuid(requireContext());
-        
+
         ExpenseApi expenseAPI = RetrofitClient.getClient().create(ExpenseApi.class);
         // Pass the String expenseId directly to the API call
         Call<Void> call = expenseAPI.deleteExpense(dbGuid, expenseId);
-        
+
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -224,7 +242,8 @@ public class ExpenseDetailFragment extends Fragment {
                     requireActivity().onBackPressed();
                 } else {
                     try {
-                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                        String errorBody = response.errorBody() != null ? response.errorBody().string()
+                                : "Unknown error";
                         Log.e(TAG, "Error deleting expense: " + response.code() + " - " + errorBody);
                         Toast.makeText(getContext(), "Failed to delete expense", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {

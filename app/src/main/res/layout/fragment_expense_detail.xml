@@ -4,38 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F7FF">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAddExpense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_add"
-            app:backgroundTint="@color/material_dynamic_primary90"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
-            app:layout_constraintVertical_bias="0.764" />
-
-        <com.google.android.material.card.MaterialCardView
+        android:layout_margin="16dp">        <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="10dp"
+            android:backgroundTint="#FFFFFF"
+            android:foreground="?attr/selectableItemBackground"
+            android:animateLayoutChanges="true"
+            app:strokeColor="#E0E0E0"
+            app:strokeWidth="0.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,26 +31,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
-
-                <TextView
+                android:padding="24dp">                <TextView
                     android:id="@+id/expenseTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textColor="#1A237E"
+                    android:fontFamily="sans-serif-medium"
                     android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:letterSpacing="0.01"
+                    android:elevation="1dp"
                     tools:text="Grocery Shopping" />
-
                 <com.google.android.material.chip.Chip
                     android:id="@+id/categoryChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textColor="@color/white"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    app:chipBackgroundColor="@color/black"
+                    android:textStyle="bold"
+                    app:chipBackgroundColor="#5C6BC0"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@android:drawable/ic_menu_add"
+                    app:chipIconTint="#FFFFFF"
+                    app:chipStartPadding="12dp"
+                    app:chipEndPadding="12dp"
                     app:chipStrokeWidth="0dp"
+                    android:elevation="2dp"
+                    app:rippleColor="#80FFFFFF"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:text="Food" />
 
                 <LinearLayout
@@ -72,15 +68,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:orientation="vertical">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Amount"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="?android:textColorSecondary"
-                        android:textColorHighlight="@color/black"
-                        android:textFontWeight="@android:integer/config_mediumAnimTime" />
+                        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                        android:textColor="#5C6BC0"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.05" />
 
                     <TextView
                         android:id="@+id/amountText"
@@ -88,13 +83,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="28sp"
+                        android:textColor="#3949AB"
+                        android:textSize="32sp"
+                        android:fontFamily="sans-serif-medium"
                         android:textStyle="bold"
+                        android:elevation="1dp"
                         tools:text="USD 78.45" />
-                </LinearLayout>
-
-                <LinearLayout
+                </LinearLayout>                <LinearLayout
                     android:id="@+id/remarkContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,37 +101,107 @@
                         android:layout_height="wrap_content"
                         android:text="Remark"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="?android:textColorSecondary" />
+                        android:textColor="#5C6BC0"
+                        android:fontFamily="sans-serif-medium" />
 
-                    <TextView
-                        android:id="@+id/remarkText"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="16sp"
-                        tools:text="Weekly grocery shopping at Whole Foods" />
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#F5F7FF"
+                        android:layout_marginBottom="4dp">
+                        
+                        <TextView
+                            android:id="@+id/remarkText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            tools:text="Weekly grocery shopping at Whole Foods" />
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
+                  <!-- Receipt Image Section -->
+                <LinearLayout
+                    android:id="@+id/receiptImageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true"
+                    android:visibility="gone">
 
-                <View
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Receipt Image"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="#5C6BC0"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Receipt Details"
+                                android:textColor="#555555"
+                                android:background="#F5F7FF"
+                                android:paddingVertical="8dp"
+                                android:paddingHorizontal="16dp"
+                                android:textSize="14sp"
+                                android:fontFamily="sans-serif-medium" />
+
+                            <ImageView
+                                android:id="@+id/receiptImageView"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                android:contentDescription="Receipt Image"
+                                android:padding="1dp"
+                                android:scaleType="centerCrop" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>                <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="24dp"
-                    android:background="?android:attr/listDivider" />
-
+                    android:background="#E0E0F0"
+                    android:layout_marginHorizontal="8dp" />  
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="#F5F7FF"
+                    android:padding="10dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="4dp"
+                    app:cornerRadius="8dp">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/ic_calendar"
-                        app:tint="?android:textColorSecondary" />
+                        android:padding="2dp"
+                        app:tint="#5C6BC0" />
 
                     <TextView
                         android:id="@+id/createdDateText"
@@ -144,22 +209,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="?android:textColorSecondary"
+                        android:textColor="#5C6BC0"
                         android:textSize="14sp"
+                        android:fontFamily="sans-serif"
                         tools:text="Created on March 15, 2024, 2:30 PM" />
-                </LinearLayout>
-
-                <LinearLayout
+                </LinearLayout>                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="#F5F7FF"
+                    android:padding="10dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginBottom="4dp"
+                    app:cornerRadius="8dp">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/ic_mail"
-                        app:tint="?android:textColorSecondary" />
+                        android:padding="2dp"
+                        app:tint="#5C6BC0" />
 
                     <TextView
                         android:id="@+id/createdByText"
@@ -167,20 +237,69 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="?android:textColorSecondary"
+                        android:textColor="#5C6BC0"
                         android:textSize="14sp"
+                        android:fontFamily="sans-serif"
                         tools:text="Created by rosexmee1122@gmail.com" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80FFFFFF"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            android:backgroundTint="#FFFFFF">
+            
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
+                
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminateTint="#5C6BC0" />
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Loading..."
+                    android:textColor="#5C6BC0"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="#3949AB"
+        app:borderWidth="1dp"
+        app:fabCustomSize="56dp"
+        app:maxImageSize="24dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.SmallComponent"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:tint="@android:color/white"
+        app:elevation="6dp"
+        android:contentDescription="@string/edit"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

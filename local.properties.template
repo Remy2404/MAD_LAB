@@ -1,0 +1,10 @@
+# This is a template file for local.properties
+# Copy this file to local.properties and fill in your actual values
+# Do NOT commit the actual local.properties file to version control
+
+# SDK location (automatically added by Android Studio)
+# sdk.dir=C\:\\Users\\YourUsername\\AppData\\Local\\Android\\Sdk
+
+# Supabase credentials - replace with your actual values
+supabase.url="https://your-supabase-id.supabase.co"
+supabase.anon.key="your-supabase-anon-key"

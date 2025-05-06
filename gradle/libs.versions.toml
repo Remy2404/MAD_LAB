@@ -15,6 +15,7 @@ roomRxjava2 = "2.7.0"
 rxandroid = "2.1.1"
 rxjava = "2.2.21"
 swiperefreshlayout = "1.1.0"
+datastoreCoreAndroid = "1.1.5"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -32,6 +33,7 @@ room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomRxjav
 rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
 swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -103,6 +103,7 @@
     <string name="edit_expense">កែប្រែចំណាយ</string>
     <string name="category_icon">រូបតំណាងប្រភេទ</string>
     <string name="optional_remark_here">កំណត់ចំណាំបន្ថែម</string>
+    <string name="edit">Edit</string>
 
     <string-array name="categories">
         <item>អាហារ</item>

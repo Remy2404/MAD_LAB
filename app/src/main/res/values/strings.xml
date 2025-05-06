@@ -123,6 +123,13 @@
     <string name="edit_expense">Edit Expense</string>
     <string name="category_icon">Category Icon</string>
     <string name="optional_remark_here">Optional remark here</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="from_gallery">From Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="receipt_preview">Receipt Preview</string>
+    <string name="receipt_selected">Receipt selected</string>
+    <string name="edit">Edit</string>
 
     <string-array name="categories">
         <item>Food</item>
