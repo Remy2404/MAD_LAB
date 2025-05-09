@@ -288,6 +288,18 @@
                             android:contentDescription="Receipt preview image" />
 
                         <TextView
+                            android:id="@+id/tvReceiptStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Ready to upload"
+                            android:textAlignment="center"
+                            android:textColor="#5C6BC0"
+                            android:background="#EEF2FF"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="12dp"

@@ -93,7 +93,7 @@ public class AddExpense_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_expense, container, false);
 
@@ -300,7 +300,7 @@ public class AddExpense_Fragment extends Fragment {
     }
 
     private void saveExpenseWithImageUrl(String title, double amount, String currency,
-            String category, String remark, String userId, String imageUrl) {
+                                         String category, String remark, String userId, String imageUrl) {
         // Create expense object
         Expense expense = new Expense();
         expense.setId(UUID.randomUUID().toString());
@@ -323,7 +323,7 @@ public class AddExpense_Fragment extends Fragment {
 
     /**
      * Upload image to Supabase storage
-     * 
+     *
      * @param expense The expense object to update with the image URL
      */
     private void uploadImage(Expense expense) {
@@ -336,9 +336,10 @@ public class AddExpense_Fragment extends Fragment {
             // Show status in the preview card
             cardReceiptPreview.setVisibility(View.VISIBLE);
 
-            // Create a TextView for status if not already part of the layout
+            // Get the status TextView and set its visibility
             TextView tvReceiptStatus = requireView().findViewById(R.id.tvReceiptStatus);
             if (tvReceiptStatus != null) {
+                tvReceiptStatus.setVisibility(View.VISIBLE);
                 tvReceiptStatus.setText("Uploading receipt image...");
             }
 
@@ -350,7 +351,8 @@ public class AddExpense_Fragment extends Fragment {
                         expense.setReceiptImageUrl(imageUrl);
 
                         if (tvReceiptStatus != null) {
-                            tvReceiptStatus.setText("Receipt image uploaded");
+                            tvReceiptStatus.setText("Receipt image uploaded successfully!");
+                            // Keep status visible for feedback
                         }
 
                         // Now save the expense to the API
@@ -361,8 +363,11 @@ public class AddExpense_Fragment extends Fragment {
                         Log.e(TAG, "Error uploading image", throwable);
 
                         requireActivity().runOnUiThread(() -> {
+                            TextView tvReceiptStatus2 = requireView().findViewById(R.id.tvReceiptStatus);
                             if (tvReceiptStatus != null) {
+                                tvReceiptStatus.setVisibility(View.VISIBLE);
                                 tvReceiptStatus.setText("Failed to upload receipt");
+                                tvReceiptStatus.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark));
                             }
 
                             Toast.makeText(requireContext(),
@@ -385,7 +390,7 @@ public class AddExpense_Fragment extends Fragment {
 
     /**
      * Save expense to the API
-     * 
+     *
      * @param expense The expense object to save
      */
     private void saveExpenseToApi(Expense expense) {
@@ -475,7 +480,7 @@ public class AddExpense_Fragment extends Fragment {
 
     /**
      * Check if camera permission is granted
-     * 
+     *
      * @return true if camera permission is granted, false otherwise
      */
     private boolean checkCameraPermission() {
@@ -562,6 +567,14 @@ public class AddExpense_Fragment extends Fragment {
     private void displaySelectedImage() {
         if (selectedImageUri != null) {
             cardReceiptPreview.setVisibility(View.VISIBLE);
+
+            // Reset and hide the status TextView
+            TextView tvReceiptStatus = requireView().findViewById(R.id.tvReceiptStatus);
+            if (tvReceiptStatus != null) {
+                tvReceiptStatus.setText("Ready to upload");
+                tvReceiptStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.purple_500));
+                tvReceiptStatus.setVisibility(View.VISIBLE);
+            }
 
             // Use Glide to load the image
             Glide.with(this)
